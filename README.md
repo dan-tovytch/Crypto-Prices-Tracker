@@ -17,6 +17,7 @@ failures in one coin do not affect the processing of others.
 - Provides an Artisan command for manual execution `php artisan app:crypto`
 - Processes queued jobs (if using Redis) with `php artisan queue:work redis`
 - Automatic periodic updates via laravel scheduler
+- Real-time price updates via WebSocket (Laravel Reverb)
 
 ## Requirements
 

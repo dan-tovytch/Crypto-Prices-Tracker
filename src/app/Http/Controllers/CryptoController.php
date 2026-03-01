@@ -15,7 +15,9 @@ class CryptoController extends Controller
     public function index()
     {
         return Inertia::render('Dashboard', [
-            'coins' => CryptoResource::collection(CryptoPrices::orderBy('market_cap_rank')->get()),
+            'coins' => CryptoResource::collection(
+                CryptoPrices::orderBy('market_cap_rank')->get()
+            )->resolve(),
         ]);
     }
 }

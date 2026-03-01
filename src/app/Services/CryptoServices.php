@@ -20,7 +20,7 @@ class CryptoServices
         $this->apiToken = config('services.coingecko.token');
     }
 
-    public function updateCryptoPrices(): void
+    public function updateCryptoPrices(): array
     {
         Log::info("Fetching crypto prices from API...");
 
@@ -28,11 +28,11 @@ class CryptoServices
 
         if (!$response) {
             Log::warning("Failed to fetch crypto prices.");
-            return;
+            return [];
         }
 
         try {
-            $this->processCryptoPrices($response);
+            return $this->processCryptoPrices($response);
         } catch (Exception $e) {
             Log::error("Failed to process crypto prices: " . $e->getMessage());
             throw $e;
@@ -52,7 +52,7 @@ class CryptoServices
         return null;
     }
 
-    protected function processCryptoPrices(array $data): void
+    protected function processCryptoPrices(array $data): array
     {
         Log::info("Processing " . count($data) . " crypto prices...");
 
@@ -104,6 +104,10 @@ class CryptoServices
             );
         });
 
+        $updated = CryptoPrices::whereIn('symbol', $symbols)->get();
+
+
         Log::info("Crypto prices processed successfully.");
+        return $updated->toArray();
     }
 }

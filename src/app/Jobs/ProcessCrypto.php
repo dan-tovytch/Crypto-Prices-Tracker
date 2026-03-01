@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\CryptoPriceUpdated;
 use App\Services\CryptoServices;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -18,6 +19,10 @@ class ProcessCrypto implements ShouldQueue
      */
     public function handle(CryptoServices $service): void
     {
-        $service->updateCryptoPrices();
+        $coins = $service->updateCryptoPrices();
+
+        foreach ($coins as $coin) {
+            CryptoPriceUpdated::dispatch($coin);
+        }
     }
 }

@@ -2,5 +2,5 @@
 
 use Illuminate\Support\Facades\Schedule;
 
-Schedule::command('app:crypto')->everyFiveMinutes();
+Schedule::command('app:crypto')->everyMinute();
 
